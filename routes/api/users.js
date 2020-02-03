@@ -3,6 +3,9 @@ const router = express.Router()
 const { check, validationResult } = require('express-validator')
 const gravatar = require('gravatar')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
+dotenv.config()
 
 const User = require('../../models/User')
 
@@ -58,8 +61,30 @@ router.post('/', [
         // Save our user w/ hashed password
         await user.save()
 
+
         // Return jsonwebtoken; allow user to login right away after registration
-        return res.send('User registered')
+        const payload = {
+            user: {
+                id: user.id
+            }
+        }
+
+        // Set our timeout to be extended in development
+        const timeout = (process.env.DEVELOPMENT ? 360000 : 3600)
+
+        jwt.sign(
+            payload, // pass in payload (user id)
+            process.env.JWT_SECRET, // pass secret
+            {expiresIn: timeout}, //pass timeout
+            (err, token) => { // send token to client on callback if no err
+                if (err) {
+                    throw err
+                }
+                // No error, send our token
+                return res.json({token})
+            }
+        )
+        console.log('User registered')
     }
     catch (err) {
         console.error(err.message)

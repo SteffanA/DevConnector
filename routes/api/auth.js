@@ -1,11 +1,22 @@
 const express = require('express')
 const router = express.Router()
+const auth = require('../../middleware/auth') // use our auth middleware
+const User = require('../../models/User')
 
 // @route GET api/auth
 // @desc Test route
 // @access Public
-router.get('/', (req, res) => {
-    res.send('Auth Route')
+router.get('/', auth, async (req, res) => {
+    // Access our user from the request token
+    try{
+        // Get our user by id and strip the password field
+        const user = await User.findById(req.user.id).select('-password')
+        return res.json(user)
+    }
+    catch (err) {
+        console.error(err.message)
+        return res.status(500).send('Server error')
+    }
 })
 
 module.exports = router

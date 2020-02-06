@@ -32,7 +32,7 @@ const ProfileSchema = new mongoose.Schema({
         type: String
     },
     // Array of various roles/jobs user has had
-    experiece: [
+    experience: [
         {
             title: {
                 type: String,

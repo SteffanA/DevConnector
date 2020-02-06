@@ -2,6 +2,10 @@ const express = require('express')
 const router = express.Router()
 const auth  = require('../../middleware/auth')
 const { check, validationResult } = require('express-validator')
+const request = require('request')
+// Load enviromental variables from our .env file
+const dotenv = require('dotenv')
+dotenv.config()
 
 const Profile = require('../../models/Profile')
 const User = require('../../models/User')
@@ -317,6 +321,37 @@ router.delete('/education/:edu_id', [auth], async (req, res) => {
     } catch (error) {
         console.error(error.message)
         return res.status(500).send('Server Error')
+    }
+})
+
+// @route GET api/profile/github/:username
+// @desc Get user repos from Github
+// @access Public
+router.get('/github/:user', async (req, res) => {
+    try {
+        const options = {
+            uri: `https://api.github.com/users/${req.params.user}/repos?per_page=5&sort=created:asc`,
+            method: 'GET',
+            headers: {
+                'user-agent': 'node.js',
+                Authorization: `token ${process.env.GITHUB_OATH_TOKEN}`
+            }
+        }
+
+        request(options, (error, response, body) => {
+            if (error) console.error(error)
+
+            //: This check doesn't work; also body still has a length. Need better handler
+            // RESOLVED: My test case was a valid profile
+            if (response.statusCode !== 200) {
+                return res.status(400).json({msg : 'No github profile found'})
+            }
+
+            return res.json(JSON.parse(body))
+        })
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send('Server error')
     }
 })
 

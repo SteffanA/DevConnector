@@ -18,7 +18,7 @@ const PostSchema = new Schema({
     },
     // Avatar of the user
     avatar: {
-        type: String, // TODO note in vid was string not String - intentional?
+        type: String, 
     },
     likes: [
         {

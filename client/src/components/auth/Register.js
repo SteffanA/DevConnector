@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react'
-import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 export const Register = () => {
     const [formData, setFormData] = useState({
@@ -26,26 +26,7 @@ export const Register = () => {
             console.log('No pwd match')
         }
         else {
-            const newUser = {
-                name, email, password
-            }
-            try {
-                // NOTE: default axios headers are this, not required
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                }
-                //May not need to do this; seems like passing raw user works as well
-                const body = JSON.stringify(newUser)
-
-                // We can post this directly to our route b/c of our proxy
-                const res = await axios.post('/api/users', body, config)
-
-                console.log(res.data)
-            } catch (error) {
-                console.error(error.response.data)
-            }
+            console.log('success')
         }
     }
 
@@ -87,7 +68,7 @@ export const Register = () => {
                 <input type="submit" className="btn btn-primary" value="Register" />
             </form>
             <p className="my-1">
-                Already have an account? <a href="login.html">Sign In</a>
+                Already have an account? <Link to="/login">Sign In</Link>
             </p>
         </Fragment>
     )

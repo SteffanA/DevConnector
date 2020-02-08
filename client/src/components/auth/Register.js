@@ -1,7 +1,9 @@
 import React, { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import * as alertActions from '../../actions/alert'
 
-export const Register = () => {
+export const Register = (props) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -23,7 +25,7 @@ export const Register = () => {
         event.preventDefault()
         if (password !== password2) {
             // Don't submit, set alert
-            console.log('No pwd match')
+            props.setAlert('No pwd match', 'danger')
         }
         else {
             console.log('success')
@@ -74,4 +76,16 @@ export const Register = () => {
     )
 }
 
-export default Register
+
+const mapStateToProps = (state) => {
+    return {
+        alert: state.alert,
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setAlert: (msg, alertType) => dispatch(alertActions.setAlert(msg, alertType)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register)

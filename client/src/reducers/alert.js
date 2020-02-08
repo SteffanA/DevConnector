@@ -7,6 +7,7 @@ export default alert = (state=initialState, action) => {
     switch(type) {
         // Set a specific alert
         case types.SET_ALERT:
+            console.log('Hit our reducer')
             return [...state, payload]
         // Remove an alert by ID
         case types.REMOVE_ALERT:

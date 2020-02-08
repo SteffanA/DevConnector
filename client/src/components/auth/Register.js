@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react'
+import axios from 'axios'
 
 export const Register = () => {
     const [formData, setFormData] = useState({
@@ -17,14 +18,34 @@ export const Register = () => {
         setFormData({...formData, [event.target.name]: event.target.value})
     }
 
-    const submitHandler = (event) => {
+    // Remember, needs to be async b/c we need to do DB stuff
+    const submitHandler = async (event) => {
         event.preventDefault()
         if (password !== password2) {
             // Don't submit, set alert
             console.log('No pwd match')
         }
         else {
-            console.log(formData)
+            const newUser = {
+                name, email, password
+            }
+            try {
+                // NOTE: default axios headers are this, not required
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }
+                //May not need to do this; seems like passing raw user works as well
+                const body = JSON.stringify(newUser)
+
+                // We can post this directly to our route b/c of our proxy
+                const res = await axios.post('/api/users', body, config)
+
+                console.log(res.data)
+            } catch (error) {
+                console.error(error.response.data)
+            }
         }
     }
 

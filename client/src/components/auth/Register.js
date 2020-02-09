@@ -25,6 +25,7 @@ export const Register = (props) => {
         event.preventDefault()
         if (password !== password2) {
             // Don't submit, set alert
+            console.log('about to call props.setAlert')
             props.setAlert('No pwd match', 'danger')
         }
         else {
@@ -79,7 +80,6 @@ export const Register = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        alert: state.alert,
     }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -88,4 +88,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register)
+export default connect(null, mapDispatchToProps)(Register)

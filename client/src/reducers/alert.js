@@ -2,7 +2,8 @@ import * as types from '../actions/types'
 
 const initialState = []
 
-export default alert = (state=initialState, action) => {
+const alert = (state=initialState, action) => {
+    console.log("in reducer for alerts in general")
     const { type, payload } = action
     switch(type) {
         // Set a specific alert
@@ -16,3 +17,5 @@ export default alert = (state=initialState, action) => {
             return state
     }
 }
+
+export default alert

@@ -1,7 +1,7 @@
 import * as types from './types'
 import uuid from 'uuid'
 
-export const setAlert = (msg, alertType) => dispatch => {
+export const setAlert = (msg, alertType) => {
     console.log('in set alert')
     const id = uuid.v4()
     return({

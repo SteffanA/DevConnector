@@ -21,6 +21,7 @@ const auth = (state=initialState, action) => {
         case types.REGISTER_SUCCESS:
             localStorage.setItem('token', payload.token)
             return {...state, ...payload, isAuthenticated: true, loading: false}
+        case types.LOGOUT:
         case types.LOGIN_FAIL:
         case types.AUTH_ERROR:
         case types.REGISTER_FAIL:

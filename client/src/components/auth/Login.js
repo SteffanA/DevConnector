@@ -1,7 +1,11 @@
 import React, { Fragment, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import * as authActions from '../../actions/auth'
+import * as alertActions from '../../actions/alert'
 
-export const Login = () => {
+export const Login = (props) => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -20,12 +24,16 @@ export const Login = () => {
     const submitHandler = async (event) => {
         event.preventDefault()
         if (!password) {
-            // Don't submit, set alert
-            console.log('No pwd match')
+            props.setAlert('Invalid credentials', 'danger')
         }
         else {
-            console.log('success')
+            props.login({email, password})
         }
+    }
+    
+    // Redirect if logged in
+    if (props.isAuth) {
+        return <Redirect to='/dashboard'/>
     }
 
     return (
@@ -58,4 +66,22 @@ export const Login = () => {
     )
 }
 
-export default Login
+const mapStateToProps = (state) => {
+    return {
+        isAuth: state.auth.isAuthenticated,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        login: (credentials) => dispatch(authActions.login(credentials)),
+        setAlert: (msg, type) => dispatch(alertActions.setAlert(msg, type)),
+    }
+}
+
+Login.propTypes = {
+    login: PropTypes.func.isRequired,
+    isAuth: PropTypes.bool,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

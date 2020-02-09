@@ -17,10 +17,12 @@ const auth = (state=initialState, action) => {
                 loading: false,
                 user: payload
             }
-        case types.AUTH_ERROR:
+        case types.LOGIN_SUCCESS:
         case types.REGISTER_SUCCESS:
             localStorage.setItem('token', payload.token)
             return {...state, ...payload, isAuthenticated: true, loading: false}
+        case types.LOGIN_FAIL:
+        case types.AUTH_ERROR:
         case types.REGISTER_FAIL:
             // Remove any token that might have existed
             localStorage.removeItem('token')

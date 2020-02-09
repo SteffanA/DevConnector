@@ -10,6 +10,14 @@ const initialState = {
 const auth = (state=initialState, action) => {
     const {type, payload } = action
     switch(type) {
+        case types.USER_LOADED:
+            return {
+                ...state,
+                isAuthenticated: true,
+                loading: false,
+                user: payload
+            }
+        case types.AUTH_ERROR:
         case types.REGISTER_SUCCESS:
             localStorage.setItem('token', payload.token)
             return {...state, ...payload, isAuthenticated: true, loading: false}

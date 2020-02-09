@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as alertActions from '../../actions/alert'
+import * as authActions from '../../actions/auth'
 import PropTypes from 'prop-types'
 
 export const Register = (props) => {
@@ -29,7 +30,7 @@ export const Register = (props) => {
             props.setAlert('Passwords do not match.', 'danger')
         }
         else {
-            console.log('SUCCESS')
+            props.register({name, email, password})
         }
     }
 
@@ -78,18 +79,16 @@ export const Register = (props) => {
 }
 
 
-const mapStateToProps = (state) => {
-    return {
-    }
-}
 const mapDispatchToProps = (dispatch) => {
     return {
         setAlert: (msg, alertType) => dispatch(alertActions.setAlert(msg, alertType)),
+        register: (credentials) => dispatch(authActions.register(credentials)),
     }
 }
 
 Register.propTypes = {
     setAlert: PropTypes.func.isRequired,
+    register: PropTypes.func.isRequired,
 }
 
 export default connect(null, mapDispatchToProps)(Register)

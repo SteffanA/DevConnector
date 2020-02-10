@@ -69,12 +69,12 @@ async (req, res) => {
     const profileFields = {}
     profileFields.user = req.user.id // known by token
     // Validate that the fields we deconstructed above actually exist
-    if (company) profileFields.company = company
-    if (website) profileFields.website = website
-    if (location) profileFields.location = location
-    if (bio) profileFields.bio = bio
+    if (company) profileFields.company = company.toString()
+    if (website) profileFields.website = website.toString()
+    if (location) profileFields.location = location.toString()
+    if (bio) profileFields.bio = bio.toString()
     if (status) profileFields.status = status.toString()
-    if (githubusername) profileFields.githubusername = githubusername
+    if (githubusername) profileFields.githubusername = githubusername.toString()
     // Skills is an array
     if (skills) {
         // Get skills by comma-delimiter, then trim resulting array's elements
@@ -83,11 +83,11 @@ async (req, res) => {
     }
     // Build our array of social media sites
     profileFields.social = {}
-    if (youtube) profileFields.social.youtube = youtube
-    if (facebook) profileFields.social.facebook = facebook
-    if (twitter) profileFields.social.twitter = twitter
-    if (instagram) profileFields.social.instagram = instagram
-    if (linkedin) profileFields.social.linkedin = linkedin
+    if (youtube) profileFields.social.youtube = youtube.toString()
+    if (facebook) profileFields.social.facebook = facebook.toString()
+    if (twitter) profileFields.social.twitter = twitter.toString()
+    if (instagram) profileFields.social.instagram = instagram.toString()
+    if (linkedin) profileFields.social.linkedin = linkedin.toString()
 
     // Insert our data into the DB
     try {

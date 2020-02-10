@@ -46,6 +46,8 @@ export const register = ({name, email, password}) => async dispatch => {
         })
     } catch (error) {
         // Check if error response contains any 'legible' errors
+        // console.log('caught error')
+        // console.log(error)
         const errors = error.response.data.errors
         if (errors) {
             // Set an alert for all errors that came back
@@ -91,6 +93,8 @@ export const login = ({email, password}) => async dispatch => {
     }
 }
 
-export const logout = () => {
-    return {type: types.LOGOUT}
+export const logout = () => dispatch => {
+    // Dispatch two actions - both logout & clear out the profile state
+    dispatch({type: types.LOGOUT})
+    dispatch({type: types.CLEAR_PROFILE})
 }

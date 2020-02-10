@@ -10,10 +10,14 @@ export const Navbar = (props) => {
     const authLinks = (
         <ul>
             <li>
+                <Link to="/dashboard"><i className='fas fa-user' />{' '}
+                <span className='hide-sm'>Dashboard</span>
+                </Link>
                 <Link to="/profiles">Developers</Link>
             </li>
             <li>
                 <Link to="/login" onClick={props.logout}>
+                    <i className='fas fa-sign-out-alt' />{' '}
                     <span className="hide-sm">Logout</span>
                 </Link>
             </li>
@@ -29,7 +33,10 @@ export const Navbar = (props) => {
                 <Link to="/register">Register</Link>
             </li>
             <li>
-                <Link to="/login">Login</Link>
+                <Link to="/login">
+                    <i className='fas fa-sign-in-alt' />{' '}
+                    <span className="hide-sm">Login</span>
+                </Link>
             </li>
         </ul>
     )

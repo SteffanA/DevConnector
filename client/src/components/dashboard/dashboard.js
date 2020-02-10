@@ -8,9 +8,10 @@ import * as profileActions from '../../actions/profile'
 const Dashboard = (props) => {
     const {profile, loading} = props.profile
     const { user } = props.auth
+    const { getCurrentProfile } = props
     useEffect(() => {
-        props.getCurrentProfile()
-    }, [])
+        getCurrentProfile()
+    }, [getCurrentProfile])
 
     return loading && profile === null ?
         <Spinner /> :

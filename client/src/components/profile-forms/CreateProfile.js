@@ -1,6 +1,7 @@
 import React, { Fragment , useState} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import * as profileActions from '../../actions/profile'
 
 const CreateProfile = props => {
     const [formData, setFormData] = useState({
@@ -35,12 +36,21 @@ const CreateProfile = props => {
         instagram
     } = formData
 
+    // Pull out our props
+    const {createProfile, history } = props
+
     // Generic method to handle any form changes
     const changeHandler = (event) => {
         setFormData({
             ...formData,
             [event.target.name]: [event.target.value]
         })
+    }
+
+    const createOnSubmit = (event) => {
+        event.preventDefault()
+        console.log(formData)
+        createProfile(formData, history)
     }
 
     return (
@@ -53,7 +63,7 @@ const CreateProfile = props => {
         profile stand out
       </p>
       <small>* = required field</small>
-      <form className="form">
+      <form className="form" onSubmit={createOnSubmit}>
         <div className="form-group">
           <select name="status" value={status} onChange={changeHandler}>
             <option value="0">* Select Professional Status</option>
@@ -84,7 +94,7 @@ const CreateProfile = props => {
         </div>
         <div className="form-group">
           <input type="text" placeholder="Location" name="location" value={location} onChange={changeHandler}/>
-          <small class="form-text"
+          <small className="form-text"
             >City & state suggested (eg. Boston, MA)</small
           >
         </div>
@@ -155,19 +165,13 @@ const CreateProfile = props => {
 }
 
 CreateProfile.propTypes = {
-
-}
-
-const mapStateToProps = (state) => {
-    return {
-
-    }
+    createProfile : PropTypes.func.isRequired,
 }
 
 const mapPropsToDispatch = (dispatch) => {
     return {
-
+        createProfile: (formData, history, edit) => dispatch(profileActions.createProfile(formData, history, edit))
     }
 }
 
-export default connect(mapStateToProps, mapPropsToDispatch)(CreateProfile)
+export default connect(null, mapPropsToDispatch)(CreateProfile)

@@ -73,13 +73,13 @@ async (req, res) => {
     if (website) profileFields.website = website
     if (location) profileFields.location = location
     if (bio) profileFields.bio = bio
-    if (status) profileFields.status = status
+    if (status) profileFields.status = status.toString()
     if (githubusername) profileFields.githubusername = githubusername
     // Skills is an array
     if (skills) {
         // Get skills by comma-delimiter, then trim resulting array's elements
         // such that there are no trailing spaces
-        profileFields.skills = skills.split(',').map(skill => skill.trim())
+        profileFields.skills = skills.toString().split(',').map(skill => skill.trim())
     }
     // Build our array of social media sites
     profileFields.social = {}
